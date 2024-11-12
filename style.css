@@ -1,4 +1,4 @@
-/* General page background */
+/* Resetting basic styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -10,22 +10,23 @@ body {
 
 /* Main container styling */
 .container {
-    max-width: 400px;
+    max-width: 500px;
     background-color: #ffffff;
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 2px solid #e0e0e0; /* Light border for main container */
+    border: 1px solid #e0e0e0;
 }
 
 /* Header or points section styling */
 .points-section {
-    background-color: #ff6b81; /* A similar orange/red color */
+    background-color: #ff6b81; /* Primary color */
     color: white;
     text-align: center;
-    padding: 20px;
-    border-radius: 12px 12px 0 0; /* Rounded top corners */
+    padding: 15px;
+    border-radius: 8px;
     font-weight: bold;
+    margin-bottom: 15px;
 }
 
 .points-section h2 {
@@ -42,37 +43,39 @@ body {
 /* Check-in grid styling */
 .checkin-grid {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 2px solid #e0e0e0; /* Light line below the check-in grid */
+    border-bottom: 2px solid #e0e0e0;
     margin-top: 10px;
     background-color: #ffffff;
 }
 
 .checkin-item {
-    background-color: #ffffff;
-    color: #007bff; /* Blue text color */
+    background-color: #007bff; /* Blue background for check-in items */
+    color: white;
     text-align: center;
-    width: 45px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     padding: 10px;
-    border: 1px solid #e0e0e0; /* Light border for each check-in item */
     border-radius: 8px;
     font-size: 14px;
     font-weight: bold;
+    margin: 5px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Check-in button styling */
 .checkin-button {
     display: block;
     width: 100%;
-    padding: 10px;
-    margin-top: 15px;
-    background-color: #ff6b81; /* Match with points section color */
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #ff6b81; /* Button color */
     color: white;
     font-weight: bold;
     text-align: center;
@@ -80,6 +83,7 @@ body {
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Rewards section styling */
@@ -90,13 +94,12 @@ body {
 .reward-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 15px;
-    border: 1px solid #e0e0e0; /* Light border for each reward */
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
     background-color: #ffffff;
     margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for card effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .reward-item img {
@@ -115,7 +118,7 @@ body {
 }
 
 .reward-points {
-    background-color: #ff6b81; /* Match with other section colors */
+    background-color: #ff6b81;
     color: white;
     padding: 5px 10px;
     border-radius: 5px;
