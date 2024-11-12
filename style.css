@@ -1,3 +1,12 @@
+/* Style for the daily reward container */
+.daily-reward-container {
+    border: 2px solid #ff6b81; /* Adjust the color as needed */
+    border-radius: 12px; /* Adds rounded corners */
+    padding: 15px; /* Adds padding inside the border */
+    margin-bottom: 20px; /* Adds spacing below the section */
+    background-color: #fff;
+}
+
 /* style.css */
 body {
     font-family: Arial, sans-serif;
