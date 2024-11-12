@@ -1,61 +1,125 @@
-/* Style for the daily reward container */
-.daily-reward-container {
-    border: 2px solid #ff6b81; /* Adjust the color as needed */
-    border-radius: 12px; /* Adds rounded corners */
-    padding: 15px; /* Adds padding inside the border */
-    margin-bottom: 20px; /* Adds spacing below the section */
-    background-color: #fff;
-}
-
-/* style.css */
+/* General page background */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 20px;
-}
-
-.container {
-    max-width: 600px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-h1, h2 {
-    text-align: center;
-}
-
-.checkin-grid {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 20px;
     justify-content: center;
 }
 
-.checkin-item {
-    background-color: #007bff;
+/* Main container styling */
+.container {
+    max-width: 400px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #e0e0e0; /* Light border for main container */
+}
+
+/* Header or points section styling */
+.points-section {
+    background-color: #ff6b81; /* A similar orange/red color */
     color: white;
-    padding: 10px;
-    width: 80px;
     text-align: center;
-    border-radius: 5px;
+    padding: 20px;
+    border-radius: 12px 12px 0 0; /* Rounded top corners */
+    font-weight: bold;
+}
+
+.points-section h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.points-section p {
+    font-size: 36px;
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Check-in grid styling */
+.checkin-grid {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 2px solid #e0e0e0; /* Light line below the check-in grid */
+    margin-top: 10px;
+    background-color: #ffffff;
+}
+
+.checkin-item {
+    background-color: #ffffff;
+    color: #007bff; /* Blue text color */
+    text-align: center;
+    width: 45px;
+    height: 70px;
+    padding: 10px;
+    border: 1px solid #e0e0e0; /* Light border for each check-in item */
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.checkin-item:hover {
-    background-color: #0056b3;
+/* Check-in button styling */
+.checkin-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #ff6b81; /* Match with points section color */
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
-.prizes {
-    margin-top: 30px;
+/* Rewards section styling */
+.rewards-section {
+    margin-top: 20px;
 }
 
 .reward-item {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border: 1px solid #e0e0e0; /* Light border for each reward */
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for card effect */
+}
+
+.reward-item img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.reward-item div {
+    flex: 1;
+}
+
+.reward-item p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.reward-points {
+    background-color: #ff6b81; /* Match with other section colors */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
 }
