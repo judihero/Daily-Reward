@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Reward Check-in</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Reward</h1>
+        <div class="points">
+            <h2>Current Points: <span id="points">0</span></h2>
+        </div>
+
+        <div class="checkin-grid">
+            <!-- Daily check-in items -->
+            <div class="checkin-item" onclick="addPoints(1)">Day 1 +1</div>
+            <div class="checkin-item" onclick="addPoints(2)">Day 2 +2</div>
+            <div class="checkin-item" onclick="addPoints(2)">Day 3 +2</div>
+            <div class="checkin-item" onclick="addPoints(4)">Day 4 +4</div>
+            <div class="checkin-item" onclick="addPoints(5)">Day 5 +5</div>
+            <div class="checkin-item" onclick="addPoints(6)">Day 6 +6</div>
+            <div class="checkin-item" onclick="addPoints(10)">Day 7 +10</div>
+        </div>
+
+        <div class="prizes">
+            <h2>Rewards</h2>
+            <div class="reward-item">RM 8 Wallet Angpow</div>
+            <div class="reward-item">RM 18 Wallet Angpow</div>
+            <div class="reward-item">RM 28 Wallet Angpow</div>
+            <div class="reward-item">RM 38 Wallet Angpow</div>
+            <div class="reward-item">RM 58 Wallet Angpow</div>
+            <div class="reward-item">RM 88 Wallet Angpow</div>
+            <div class="reward-item">RM 188 Cash Voucher</div>
+            <div class="reward-item">RM 288 Cash Voucher</div>
+            <div class="reward-item">APPLE SERIES 9 - Apple Watch</div>
+            <div class="reward-item">APPLE IPHONE - iPhone 16 Pro Max</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
