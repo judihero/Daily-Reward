@@ -43,10 +43,9 @@ body {
 /* Check-in grid styling */
 .checkin-grid {
     display: flex;
-    flex-wrap: nowrap; /* Prevent items from wrapping */
-    justify-content: space-between;
-    width: 100%; /* Adjust container width as needed */
-    overflow-x: auto; /* Adds horizontal scroll if items don’t fit */
+    flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
+    justify-content: space-between; /* Distribute items evenly */
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
     padding: 10px 0;
     gap: 10px; /* Space between each item */
 }
