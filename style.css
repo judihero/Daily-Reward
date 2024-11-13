@@ -69,6 +69,16 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.checkin-item img {
+    width: 20px; /* Adjust the width and height as needed */
+    height: 20px;
+    margin-bottom: 5px; /* Adds space between the image and the text */
+}
+
+.checkin-item span {
+    line-height: 1.2;
+}
+
 /* Check-in button styling */
 .checkin-button {
     display: block;
