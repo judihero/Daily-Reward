@@ -52,27 +52,31 @@ body {
 }
 
 .checkin-item {
-    background-color: #007bff; /* Blue background for check-in items */
+    background-color: #007bff; /* Blue background */
     color: white;
     text-align: center;
-    width: 60px;
-    height: 60px;
+    width: 60px; /* Adjust the width to match the design */
+    height: 80px; /* Adjust the height to fit image and text */
     padding: 10px;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
     margin: 5px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Ensures content stays within the box */
 }
 
 .checkin-item img {
-    width: 20px; /* Adjust the width and height as needed */
-    height: 20px;
-    margin-bottom: 5px; /* Adds space between the image and the text */
+    width: 40px; /* Adjust to fit within the box */
+    height: 40px;
+    margin-bottom: 5px; /* Adds space between the image and text */
+    border-radius: 4px; /* Optional: Rounded corners to match the box style */
+    object-fit: contain; /* Ensures the image fits within the dimensions */
 }
 
 .checkin-item span {
