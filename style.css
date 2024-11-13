@@ -43,33 +43,33 @@ body {
 /* Check-in grid styling */
 .checkin-grid {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* Prevents wrapping to new lines */
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 2px solid #e0e0e0;
-    margin-top: 10px;
-    background-color: #ffffff;
+    overflow-x: auto; /* Adds horizontal scrolling if needed */
+    gap: 10px; /* Space between each item */
 }
 
 .checkin-item {
-    background-color: #007bff; /* Blue background */
+    flex: 0 0 60px; /* Set a fixed width for each item */
+    background-color: #007bff;
     color: white;
     text-align: center;
-    width: 60px; /* Adjust the width to match the design */
-    height: 80px; /* Adjust the height to fit image and text */
+    width: 60px;
+    height: 80px;
     padding: 10px;
     border-radius: 8px;
     font-size: 12px;
     font-weight: bold;
-    margin: 5px;
+    margin: 0;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow: hidden; /* Ensures content stays within the box */
 }
+
 
 .checkin-item img {
     width: 40px; /* Adjust to fit within the box */
