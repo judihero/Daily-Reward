@@ -47,26 +47,27 @@ body {
 }
 
 /* Check-In Grid */
-/* Check-In Grid */
 .checkin-grid {
     display: flex;
-    justify-content: space-between; /* Distribute items evenly */
-    gap: 10px; /* Adjust spacing as needed */
-    width: 100%; /* Take full container width */
-    overflow: hidden; /* Remove scroll */
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    overflow: hidden;
+    background-color: transparent; /* Ensure no background color */
 }
 
 /* Check-In Container */
 .checkin-container {
+    background-color: transparent; /* Ensure no background color */
     flex: 1;
-    min-width: calc(100% / 7 - 10px); /* Adjust size to fit 7 items */
-    max-width: 80px; /* Limit max width for each item */
+    min-width: calc(100% / 7 - 10px);
+    max-width: 80px;
     text-align: center;
 }
 
 /* Check-In Item Styling */
 .checkin-item {
-    background-color: transparent; /* Remove background color */
+    background-color: transparent !important; /* Force transparent background */
     padding: 0; /* Remove padding */
     border-radius: 0; /* Remove rounded corners */
     display: flex;
