@@ -1,4 +1,4 @@
-/* Reset and Body Styling */
+/* Reset and Base Styles */
 body {
     margin: 0;
     padding: 0;
@@ -13,7 +13,7 @@ body {
 /* Main Container */
 .container {
     width: 100%;
-    max-width: 800px;
+    max-width: 600px;
     margin: 20px auto;
     background-color: #ffffff;
     border-radius: 8px;
@@ -22,7 +22,7 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column; /* Stack children vertically */
-    gap: 20px; /* Add spacing between sections */
+    gap: 20px; /* Add space between sections */
 }
 
 /* Points Section */
@@ -35,30 +35,41 @@ body {
     font-weight: bold;
 }
 
+.points-section h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.points-section p {
+    font-size: 36px;
+    margin: 0;
+    font-weight: bold;
+}
+
 /* Check-In Grid */
 .checkin-grid {
     display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto; /* Enable horizontal scroll if needed */
+    flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
     gap: 10px;
-    width: 100%;
+    width: 100%; /* Full width */
+    padding: 10px 0;
 }
 
-/* Check-In Items */
+/* Individual Check-In Items */
 .checkin-container {
     text-align: center;
     flex: 1;
-    min-width: 80px; /* Ensure items have consistent sizing */
+    min-width: 80px; /* Minimum width for check-in items */
 }
 
 .checkin-item {
-    background-color: #007bff;
+    background-color: #007bff; /* Blue background */
     color: white;
     border-radius: 8px;
     padding: 10px;
     text-align: center;
     font-size: 12px;
-    margin-bottom: 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -66,25 +77,37 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Check-In Button */
+.checkin-item img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+}
+
+.day-label {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Check-In Today Button */
 .checkin-button {
     background-color: #ff6b81;
     color: white;
-    padding: 15px;
-    border-radius: 8px;
     font-size: 16px;
     font-weight: bold;
+    padding: 15px;
     border: none;
-    width: 100%;
+    border-radius: 8px;
+    width: 100%; /* Full width */
     cursor: pointer;
+    text-align: center;
 }
 
 /* Rewards Section */
 .rewards-section {
     display: flex;
-    flex-direction: column; /* Stack rewards vertically */
-    gap: 15px; /* Add space between each reward item */
-    width: 100%;
+    flex-direction: column; /* Stack reward items vertically */
+    gap: 15px; /* Space between each reward item */
+    width: 100%; /* Full width */
 }
 
 .reward-item {
@@ -92,7 +115,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 10px;
-    background-color: #fff;
+    background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
