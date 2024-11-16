@@ -11,113 +11,66 @@ body {
 }
 
 /* Main Container */
+/* Main Container */
 .container {
     width: 100%;
-    max-width: 600px;
-    margin: 20px auto;
+    max-width: 800px;
+    margin: 20px auto; /* Center container */
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     padding: 15px;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 20px; /* Space between sections */
 }
 
 /* Points Section */
 .points-section {
+    text-align: center;
     background-color: #ff6b81;
     color: white;
-    text-align: center;
-    padding: 20px;
+    padding: 15px;
     border-radius: 8px;
-    margin-bottom: 15px;
-    font-weight: bold;
-}
-
-.points-section h2 {
-    margin: 0;
-    font-size: 18px;
-}
-
-.points-section p {
-    font-size: 36px;
-    margin: 0;
-    font-weight: bold;
 }
 
 /* Check-In Grid */
 .checkin-grid {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: space-between;
     overflow-x: auto;
-    padding: 10px 0;
     gap: 10px;
 }
 
-.checkin-container {
-    text-align: center;
-    flex: 1;
-    min-width: 80px;
-}
-
-.checkin-item {
-    background-color: #007bff;
-    color: white;
-    border-radius: 8px;
-    padding: 10px;
-    text-align: center;
-    font-size: 12px;
-    margin-bottom: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-}
-
-.checkin-item img {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 5px;
-}
-
-.day-label {
-    font-size: 14px;
-    color: #333;
-}
-
-/* Check In Button */
+/* Check In Today Button */
 .checkin-button {
-    display: block;
+    width: 100%;
     background-color: #ff6b81;
     color: white;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 15px;
     text-align: center;
+    font-size: 16px;
+    padding: 15px;
     border: none;
     border-radius: 8px;
-    width: 100%;
     cursor: pointer;
-    margin-bottom: 20px;
 }
 
 /* Rewards Section */
 .rewards-section {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: column; /* Stack reward items vertically */
+    gap: 15px; /* Space between each reward item */
 }
 
 .reward-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #ffffff;
+    padding: 10px;
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -133,17 +86,12 @@ body {
     flex-direction: column;
 }
 
-.reward-item p {
-    margin: 0;
-    font-size: 14px;
-}
-
 .reward-points {
     background-color: #ff6b81;
     color: white;
+    font-size: 14px;
     padding: 5px 10px;
     border-radius: 8px;
-    font-weight: bold;
-    font-size: 14px;
     text-align: center;
 }
+
