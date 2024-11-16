@@ -47,33 +47,40 @@ body {
 }
 
 /* Check-In Grid */
+/* Check-In Grid */
 .checkin-grid {
     display: flex;
-    justify-content: space-between; /* Spread items across the width */
+    justify-content: space-between; /* Distribute items evenly */
     gap: 10px; /* Adjust spacing as needed */
-    width: 100%;
-    overflow-x: hidden; /* Hide horizontal scrolling */
+    width: 100%; /* Take full container width */
+    overflow: hidden; /* Remove scroll */
 }
 
+/* Check-In Container */
 .checkin-container {
     flex: 1;
-    min-width: calc(100% / 7); /* Adjust size so all 7 days fit */
+    min-width: calc(100% / 7 - 10px); /* Adjust size to fit 7 items */
     max-width: 80px; /* Limit max width for each item */
     text-align: center;
 }
 
+/* Check-In Item Styling */
 .checkin-item {
-    background-color: #007bff;
+    background-color: #007bff; /* Blue background */
     color: white;
     border-radius: 8px;
     padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 5px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    font-size: 12px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Image Styling */
 .checkin-item img {
     width: 40px;
     height: 40px;
@@ -84,6 +91,7 @@ body {
     font-size: 14px;
     color: #333;
 }
+
 
 /* Check-In Today Button */
 .checkin-button {
