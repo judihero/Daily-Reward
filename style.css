@@ -49,31 +49,28 @@ body {
 /* Check-In Grid */
 .checkin-grid {
     display: flex;
-    flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
-    overflow-x: auto; /* Enable horizontal scrolling if needed */
-    gap: 10px;
-    width: 100%; /* Full width */
-    padding: 10px 0;
+    justify-content: space-between; /* Spread items across the width */
+    gap: 10px; /* Adjust spacing as needed */
+    width: 100%;
+    overflow-x: hidden; /* Hide horizontal scrolling */
 }
 
-/* Individual Check-In Items */
 .checkin-container {
-    text-align: center;
     flex: 1;
-    min-width: 80px; /* Minimum width for check-in items */
+    min-width: calc(100% / 7); /* Adjust size so all 7 days fit */
+    max-width: 80px; /* Limit max width for each item */
+    text-align: center;
 }
 
 .checkin-item {
-    background-color: #007bff; /* Blue background */
+    background-color: #007bff;
     color: white;
     border-radius: 8px;
     padding: 10px;
-    text-align: center;
-    font-size: 12px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    font-size: 12px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
