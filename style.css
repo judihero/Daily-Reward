@@ -14,7 +14,7 @@ body {
 .container {
     width: 100%;
     max-width: 600px;
-    margin: 20px;
+    margin: 20px auto;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -24,7 +24,7 @@ body {
 
 /* Points Section */
 .points-section {
-    background-color: #ff6b81; /* Pinkish red background */
+    background-color: #ff6b81;
     color: white;
     text-align: center;
     padding: 20px;
@@ -47,22 +47,21 @@ body {
 /* Check-In Grid */
 .checkin-grid {
     display: flex;
-    flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
-    justify-content: space-between; /* Distribute items evenly */
-    overflow-x: auto; /* Enable horizontal scrolling if needed */
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    overflow-x: auto;
     padding: 10px 0;
-    gap: 10px; /* Space between each item */
+    gap: 10px;
 }
-
 
 .checkin-container {
     text-align: center;
     flex: 1;
-    min-width: 80px; /* Fixed minimum width for items */
+    min-width: 80px;
 }
 
 .checkin-item {
-    background-color: #007bff; /* Blue background */
+    background-color: #007bff;
     color: white;
     border-radius: 8px;
     padding: 10px;
@@ -74,6 +73,7 @@ body {
     justify-content: center;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 .checkin-item img {
@@ -90,7 +90,7 @@ body {
 /* Check In Button */
 .checkin-button {
     display: block;
-    background-color: #ff6b81; /* Pinkish red button */
+    background-color: #ff6b81;
     color: white;
     font-size: 16px;
     font-weight: bold;
@@ -107,7 +107,7 @@ body {
 .rewards-section {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Space between reward items */
+    gap: 10px;
 }
 
 .reward-item {
