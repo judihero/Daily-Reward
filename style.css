@@ -1,4 +1,4 @@
-/* Reset Styles */
+/* Reset and Body Styling */
 body {
     margin: 0;
     padding: 0;
@@ -11,19 +11,18 @@ body {
 }
 
 /* Main Container */
-/* Main Container */
 .container {
     width: 100%;
     max-width: 800px;
-    margin: 20px auto; /* Center container */
+    margin: 20px auto;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    padding: 15px;
+    padding: 20px;
     display: flex;
-    flex-direction: column; /* Stack items vertically */
-    gap: 20px; /* Space between sections */
+    flex-direction: column; /* Stack children vertically */
+    gap: 20px; /* Add spacing between sections */
 }
 
 /* Points Section */
@@ -33,34 +32,59 @@ body {
     color: white;
     padding: 15px;
     border-radius: 8px;
+    font-weight: bold;
 }
 
 /* Check-In Grid */
 .checkin-grid {
     display: flex;
     flex-wrap: nowrap;
-    overflow-x: auto;
+    overflow-x: auto; /* Enable horizontal scroll if needed */
     gap: 10px;
+    width: 100%;
 }
 
-/* Check In Today Button */
+/* Check-In Items */
+.checkin-container {
+    text-align: center;
+    flex: 1;
+    min-width: 80px; /* Ensure items have consistent sizing */
+}
+
+.checkin-item {
+    background-color: #007bff;
+    color: white;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Check-In Button */
 .checkin-button {
-    width: 100%;
     background-color: #ff6b81;
     color: white;
-    text-align: center;
-    font-size: 16px;
     padding: 15px;
-    border: none;
     border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    width: 100%;
     cursor: pointer;
 }
 
 /* Rewards Section */
 .rewards-section {
     display: flex;
-    flex-direction: column; /* Stack reward items vertically */
-    gap: 15px; /* Space between each reward item */
+    flex-direction: column; /* Stack rewards vertically */
+    gap: 15px; /* Add space between each reward item */
+    width: 100%;
 }
 
 .reward-item {
@@ -89,9 +113,9 @@ body {
 .reward-points {
     background-color: #ff6b81;
     color: white;
-    font-size: 14px;
     padding: 5px 10px;
     border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
     text-align: center;
 }
-
