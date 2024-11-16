@@ -1,132 +1,134 @@
-/* Reset and Base Styles */
+/* Reset Styles */
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4; /* Light background color */
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
 }
 
-/* Main container */
+/* Main Container */
 .container {
     width: 100%;
-    max-width: 800px;
+    max-width: 600px;
     margin: 20px;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    padding: 20px;
-    display: flex;
-    flex-direction: column; /* Stacks items vertically */
-    align-items: center;
-    gap: 20px; /* Spacing between sections */
+    padding: 15px;
 }
 
 /* Points Section */
 .points-section {
-    text-align: center;
-    background-color: #ff6b81; /* Pink header color */
+    background-color: #ff6b81; /* Pinkish red background */
     color: white;
-    padding: 15px;
+    text-align: center;
+    padding: 20px;
     border-radius: 8px;
-    width: 100%; /* Full width of container */
-    font-size: 20px;
+    margin-bottom: 15px;
     font-weight: bold;
 }
 
-/* Check-in Grid */
+.points-section h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.points-section p {
+    font-size: 36px;
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Check-In Grid */
 .checkin-grid {
     display: flex;
-    justify-content: space-around;
-    flex-wrap: nowrap; /* Horizontal scrolling if necessary */
-    gap: 10px; /* Space between each item */
-    overflow-x: auto; /* Horizontal scroll for small screens */
-    width: 100%; /* Full width */
-    padding: 10px 0;
+    justify-content: space-between;
+    gap: 10px;
+    overflow-x: auto; /* Horizontal scroll for smaller screens */
+    margin-bottom: 15px;
 }
 
 .checkin-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     text-align: center;
+    flex: 1;
+    min-width: 80px; /* Fixed minimum width for items */
 }
 
 .checkin-item {
     background-color: #007bff; /* Blue background */
     color: white;
-    text-align: center;
-    width: 60px;
-    height: 60px;
     border-radius: 8px;
+    padding: 10px;
+    text-align: center;
     font-size: 12px;
-    font-weight: bold;
-    margin: 0;
+    margin-bottom: 5px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
 }
 
 .checkin-item img {
-    width: 30px;
-    height: 30px;
-    margin-bottom: 5px; /* Space between icon and text */
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
 }
 
 .day-label {
     font-size: 14px;
-    margin-top: 5px;
     color: #333;
 }
 
-/* Check-In Today Button */
+/* Check In Button */
 .checkin-button {
-    width: 100%;
-    padding: 15px;
-    background-color: #ff6b81; /* Pink button color */
+    display: block;
+    background-color: #ff6b81; /* Pinkish red button */
     color: white;
     font-size: 16px;
     font-weight: bold;
+    padding: 15px;
     text-align: center;
     border: none;
     border-radius: 8px;
+    width: 100%;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 /* Rewards Section */
 .rewards-section {
     display: flex;
-    flex-direction: column; /* Stack items vertically */
-    gap: 15px; /* Space between rewards */
-    width: 100%;
-    margin-top: 20px; /* Space below check-in button */
+    flex-direction: column;
+    gap: 10px; /* Space between reward items */
 }
 
 .reward-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
-    background: #ffffff;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Card shadow */
-    border: 1px solid #ddd; /* Light border */
-    width: 100%; /* Full width of rewards container */
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .reward-item img {
     width: 50px;
     height: 50px;
-    margin-right: 10px;
+    margin-right: 15px;
 }
 
 .reward-item div {
     flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .reward-item p {
@@ -135,10 +137,11 @@ body {
 }
 
 .reward-points {
-    background-color: #ff6b81; /* Pink badge */
+    background-color: #ff6b81;
     color: white;
     padding: 5px 10px;
     border-radius: 8px;
     font-weight: bold;
+    font-size: 14px;
     text-align: center;
 }
