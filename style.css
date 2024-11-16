@@ -66,24 +66,19 @@ body {
 
 /* Check-In Item Styling */
 .checkin-item {
-    background-color: #007bff; /* Blue background */
-    color: white;
-    border-radius: 8px;
-    padding: 5px;
-    text-align: center;
-    font-size: 12px;
-    margin-bottom: 5px;
+    background-color: transparent; /* Remove background color */
+    padding: 0; /* Remove padding */
+    border-radius: 0; /* Remove rounded corners */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: none; /* Remove any shadow */
 }
 
-/* Image Styling */
 .checkin-item img {
-    width: 40px;
-    height: 40px;
+    width: 50px; /* Adjust size as needed */
+    height: 50px; /* Adjust size as needed */
     margin-bottom: 5px;
 }
 
@@ -91,7 +86,6 @@ body {
     font-size: 14px;
     color: #333;
 }
-
 
 /* Check-In Today Button */
 .checkin-button {
