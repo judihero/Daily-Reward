@@ -47,11 +47,13 @@ body {
 /* Check-In Grid */
 .checkin-grid {
     display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    overflow-x: auto; /* Horizontal scroll for smaller screens */
-    margin-bottom: 15px;
+    flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
+    justify-content: space-between; /* Distribute items evenly */
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+    padding: 10px 0;
+    gap: 10px; /* Space between each item */
 }
+
 
 .checkin-container {
     text-align: center;
