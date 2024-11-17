@@ -40,8 +40,9 @@ body {
     text-align: center;
     background-color: #ff6b81;
     color: white;
-    padding: 15px;
-    border-radius: 8px;
+    padding: 5px 2px;
+    margin: 2px;
+    border-radius: 18px;
     font-weight: bold;
 }
 
