@@ -90,6 +90,7 @@ body {
     justify-content: center;
     align-items: center;
     box-shadow: none; /* Remove any shadow */
+    pointer-events: none; /* Disable all pointer events */
 }
 
 .checkin-item img {
