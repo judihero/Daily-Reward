@@ -168,6 +168,26 @@
     </div>
 </div>
 
+<script>
+        // Function to check if the user is logged in
+        function isUserLoggedIn() {
+            // Replace this with actual login check logic (session check, token, etc.)
+            // For demonstration, we're assuming the user is not logged in (returning false)
+            return false; // Set to true if user is logged in, false if not
+        }
+
+        // Function to handle "Check In Today" button click
+        function checkIn() {
+            if (!isUserLoggedIn()) {
+                // Redirect to login page if the user is not logged in
+                window.location.href = "https://example.com/login"; // Replace with actual login URL
+            } else {
+                // Proceed with check-in if user is logged in
+                alert("Checked in successfully!"); // Replace this with actual check-in logic
+            }
+        }
+    </script>
+    
     <script src="script.js"></script>
 </body>
 </html>
