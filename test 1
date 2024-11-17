@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Reward Check-in</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .reward { margin: 20px 0; }
+        .rewards-container { display: flex; justify-content: center; flex-wrap: wrap; }
+        .reward-card { border: 1px solid #ccc; padding: 20px; margin: 10px; width: 150px; text-align: center; }
+        .checkin-button { padding: 10px 20px; margin: 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Daily Reward System</h1>
+    <p>Current Points: <span id="points">0</span></p>
+    <button class="checkin-button" onclick="dailyCheckIn()">Check In</button>
+
+    <div class="rewards-container" id="rewardsContainer"></div>
+
+    <script>
+        // Reward data
+        const rewards = [
+            { day: 1, points: 1, description: 'Reward +1' },
+            { day: 2, points: 2, description: 'Reward +2' },
+            { day: 3, points: 4, description: 'Reward +4' },
+            { day: 4, points: 6, description: 'Reward +6' },
+            { day: 5, points: 10, description: 'Reward +10' },
+            { day: 6, points: 20, description: 'Cash Voucher RM 18' },
+            { day: 7, points: 50, description: 'Apple iPhone' }
+        ];
+
+        let userPoints = 0;
+        let currentDay = 1;
+
+        // Function to render rewards
+        function renderRewards() {
+            const rewardsContainer = document.getElementById('rewardsContainer');
+            rewardsContainer.innerHTML = '';
+            rewards.forEach(reward => {
+                const rewardCard = document.createElement('div');
+                rewardCard.classList.add('reward-card');
+                rewardCard.innerHTML = `
+                    <h3>Day ${reward.day}</h3>
+                    <p>${reward.description}</p>
+                    <p>Points: ${reward.points}</p>
+                `;
+                rewardsContainer.appendChild(rewardCard);
+            });
+        }
+
+        // Check-in function
+        function dailyCheckIn() {
+            if (currentDay <= rewards.length) {
+                const reward = rewards.find(r => r.day === currentDay);
+                userPoints += reward.points;
+                document.getElementById('points').innerText = userPoints;
+                alert(`You've checked in for Day ${currentDay}. Reward: ${reward.description}`);
+                currentDay++;
+            } else {
+                alert("You've completed all daily check-ins for this cycle.");
+            }
+        }
+
+        // Initial rendering
+        renderRewards();
+    </script>
+</body>
+</html>
