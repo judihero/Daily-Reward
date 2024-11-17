@@ -68,12 +68,20 @@ body {
 
 /* Check-In Container */
 .checkin-container {
-    background-color: transparent; /* Ensure no background color */
-    flex: 1;
-    min-width: calc(100% / 7 - 10px);
-    max-width: 80px;
+    background-color: transparent;
+    border: 2px solid #007bff; /* Border color, adjust as needed */
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px; /* Space inside the container */
     text-align: center;
+    flex: 1;
+    min-width: 80px;
+    max-width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow */
 }
+
 
 /* Check-In Item Styling */
 .checkin-item {
