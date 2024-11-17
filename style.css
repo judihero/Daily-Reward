@@ -157,3 +157,16 @@ body {
     font-size: 14px;
     text-align: center;
 }
+
+/* Existing CSS styles */
+
+/* Media Query for Small Screens */
+@media (max-width: 600px) {
+    .checkin-grid {
+        flex-wrap: wrap; /* Allow wrapping on small screens */
+    }
+    .checkin-container {
+        max-width: calc(50% - 10px); /* Show two items per row on small screens */
+    }
+}
+
