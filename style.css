@@ -150,20 +150,19 @@ body {
 }
 
 .reward-points {
-    background-color: #ff6b81;
+    background-color: #ff6b81; /* Background color for points box */
     color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
+    padding: 10px; /* Adjust padding as needed */
+    border-radius: 0px; /* Remove rounded corners */
     font-weight: bold;
     font-size: 14px;
     text-align: center;
-    min-width: 80px;
-    max-width: 80px;
+    width: 60px; /* Set width to a fixed value */
+    height: 40px; /* Set height to make it more of a square shape */
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
 
 /* Existing CSS styles */
 
