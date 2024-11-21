@@ -206,23 +206,35 @@
         }
 
         function populateRewards(rewards) {
-            const rewardsSection = document.getElementById('rewards-section');
-            rewardsSection.innerHTML = '';
+    const rewardsSection = document.getElementById('rewards-section');
+    if (!rewardsSection) {
+        console.error('No element with id "rewards-section" found in the DOM');
+        return;
+    }
 
-            rewards.forEach(reward => {
-                const rewardItem = document.createElement('div');
-                rewardItem.classList.add('reward-item');
-                rewardItem.innerHTML = `
-                    <img src="${reward.image}" alt="${reward.name}">
-                    <div>
-                        <p>${reward.name}</p>
-                        <p>${reward.value}</p>
-                    </div>
-                    <div class="reward-points">${reward.points} Points</div>
-                `;
-                rewardsSection.appendChild(rewardItem);
-            });
-        }
+    if (!rewards || !Array.isArray(rewards)) {
+        console.warn('Invalid rewards data:', rewards);
+        rewardsSection.innerHTML = '<p>No rewards available</p>';
+        return;
+    }
+
+    rewardsSection.innerHTML = ''; // Clear existing rewards
+
+    rewards.forEach(reward => {
+        const rewardItem = document.createElement('div');
+        rewardItem.classList.add('reward-item');
+        rewardItem.innerHTML = `
+            <img src="${reward.image}" alt="${reward.name}">
+            <div>
+                <p>${reward.name}</p>
+                <p>${reward.value}</p>
+            </div>
+            <div class="reward-points">${reward.points} Points</div>
+        `;
+        rewardsSection.appendChild(rewardItem);
+    });
+}
+
 
         function checkIn() {
             if (!ACCESS_ID || !TOKEN) {
