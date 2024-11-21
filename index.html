@@ -178,11 +178,14 @@
      * Check if the user has made a valid deposit today.
      */
     async function checkDeposit() {
+        console.log("Starting deposit validation...");
         const today = new Date();
-        const startOfDay = new Date(today.setUTCHours(0, 0, 0, 0)).toISOString(); // Start of today
-        const endOfDay = new Date(today.setUTCHours(23, 59, 59, 999)).toISOString(); // End of today
+        const startOfDay = new Date(today.setUTCHours(0, 0, 0, 0)).toISOString();
+        const endOfDay = new Date(today.setUTCHours(23, 59, 59, 999)).toISOString();
 
-        // Prepare the request body
+        console.log("Start of day:", startOfDay);
+        console.log("End of day:", endOfDay);
+
         const requestBody = {
             module: "/transactions/getAllTransactions",
             accessId: ACCESS_ID,
@@ -194,6 +197,8 @@
             userId: ACCESS_ID
         };
 
+        console.log("Request body for deposit validation:", requestBody);
+
         try {
             const response = await fetch("https://jdk88a.com/api/v1/index.php", {
                 method: 'POST',
@@ -203,20 +208,30 @@
                 body: JSON.stringify(requestBody)
             });
 
+            console.log("Deposit API response status:", response.status);
+
             if (!response.ok) {
+                console.error("Error response from deposit API:", await response.text());
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const data = await response.json();
+            console.log("Deposit API response data:", data);
 
-            // Check if transactions exist and meet the minimum deposit requirement
+            if (!data.transactions) {
+                console.warn("No transactions found in API response.");
+                return false;
+            }
+
             const validTransactions = data.transactions.filter(
                 transaction => transaction.amount >= MIN_DEPOSIT
             );
 
-            return validTransactions.length > 0; // Return true if a valid transaction exists
+            console.log("Valid transactions:", validTransactions);
+            return validTransactions.length > 0;
+
         } catch (error) {
-            console.error("Error checking deposit:", error);
+            console.error("Error during deposit validation:", error);
             return false; // Default to no deposit in case of error
         }
     }
@@ -225,45 +240,56 @@
      * Handle the check-in process.
      */
     async function handleCheckIn() {
+        console.log("Handling check-in...");
+
         // Check if user is logged in
         if (!ACCESS_ID || !TOKEN) {
-            window.location.href = "https://jdk88c.com/login"; // Redirect to login page
+            console.log("User not logged in. Redirecting to login page...");
+            window.location.href = "https://jdk88c.com/login";
             return;
         }
 
-        // Check if user has made a valid deposit
+        console.log("User is logged in. Proceeding with deposit validation...");
         const hasDeposited = await checkDeposit();
 
         if (!hasDeposited) {
+            console.log("User has not made a valid deposit today.");
             alert("Min Topup RM 5 untuk claim Point");
             return;
         }
 
-        // Proceed with awarding the points if deposit is valid
+        console.log("User has made a valid deposit. Proceeding with check-in...");
+
         try {
             const formdata = new FormData();
             formdata.append("module", "checkIn");
             formdata.append("accessId", ACCESS_ID);
             formdata.append("accessToken", TOKEN);
 
-            const requestOptions = {
+            console.log("Check-in request payload:", [...formdata.entries()]);
+
+            const response = await fetch("https://jdk88a.com/api/v1/index.php", {
                 method: 'POST',
                 body: formdata,
                 redirect: 'follow'
-            };
+            });
 
-            const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
+            console.log("Check-in API response status:", response.status);
 
             if (!response.ok) {
+                console.error("Error response from check-in API:", await response.text());
                 throw new Error("Check-in failed.");
             }
 
             const data = await response.json();
+            console.log("Check-in API response data:", data);
 
             if (data.error) {
+                console.error("Check-in error:", data.message);
                 alert(data.message || "Check-in failed due to an unknown error.");
             } else {
                 alert("Check-in successful!");
+                console.log("Updated points after check-in:", data.updatedPoints);
                 document.getElementById('points').innerText = data.updatedPoints; // Update points
             }
         } catch (error) {
@@ -276,6 +302,7 @@
      * Initialize event listeners on page load.
      */
     document.addEventListener('DOMContentLoaded', () => {
+        console.log("DOM fully loaded. Adding event listener for check-in button...");
         document.querySelector('.checkin-button').addEventListener('click', handleCheckIn);
     });
 </script>
