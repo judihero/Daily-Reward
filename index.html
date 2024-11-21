@@ -173,126 +173,131 @@
         const ACCESS_ID = '254560538';  // Replace with your actual Access ID
         const TOKEN = '03e729dbdf5db7c33d824bf8288e10a240b433a989b91d44d0e9c214cd2c051b';  // Replace with your actual Access Token
 
-        async function fetchUserData() {
-    const formdata = new FormData();
-    formdata.append("module", "getUserDetails");
-    formdata.append("accessId", ACCESS_ID);
-    formdata.append("accessToken", TOKEN);
+        async function validateUser() {
+            const formdata = new FormData();
+            formdata.append("module", "validateUser");
+            formdata.append("accessId", ACCESS_ID);
+            formdata.append("accessToken", TOKEN);
 
-    const requestOptions = {
-        method: 'POST',
-        body: formdata,
-        redirect: 'follow'
-    };
+            const requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            };
 
-    try {
-        const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
+            try {
+                const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch user data.");
+                if (!response.ok) {
+                    throw new Error("Validation failed.");
+                }
+
+                const data = await response.json();
+                if (!data.valid) {
+                    // Redirect to login if user is not valid
+                    window.location.href = "https://jdk88c.com/login";
+                } else {
+                    fetchUserData(); // Fetch user points if logged in
+                }
+            } catch (error) {
+                console.error("Error validating user:", error);
+                window.location.href = "https://jdk88c.com/login"; // Redirect on error
+            }
         }
 
-        const data = await response.json();
-        document.getElementById('points').innerText = data.points || '0'; // Display points
-        document.getElementById('user-name').innerText = data.name || 'N/A'; // Display name
-        document.getElementById('user-phone').innerText = data.phone || 'N/A'; // Display phone
-    } catch (error) {
-        console.error("Error fetching user data:", error);
-        document.getElementById('points').innerText = 'Error';
-    }
-}
+        async function fetchUserData() {
+            const formdata = new FormData();
+            formdata.append("module", "getUserDetails");
+            formdata.append("accessId", ACCESS_ID);
+            formdata.append("accessToken", TOKEN);
 
-<div class="user-info">
-    <p>Name: <span id="user-name">Loading...</span></p>
-    <p>Phone: <span id="user-phone">Loading...</span></p>
-</div>
+            const requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            };
 
+            try {
+                const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
 
-function populateRewards(rewards) {
-    const rewardsSection = document.getElementById('rewards-section');
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user data.");
+                }
 
-    // Ensure the rewards-section exists
-    if (!rewardsSection) {
-        console.error('No element with id "rewards-section" found in the DOM');
-        return;
-    }
+                const data = await response.json();
+                document.getElementById('points').innerText = data.points || '0';
+                document.getElementById('user-name').innerText = data.name || 'N/A';
+                document.getElementById('user-phone').innerText = data.phone || 'N/A';
+                populateRewards(data.rewards); // Populate rewards
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                document.getElementById('points').innerText = 'Error';
+            }
+        }
 
-    // Validate the rewards data
-    if (!rewards || !Array.isArray(rewards)) {
-        console.warn('Invalid rewards data:', rewards);
-        rewardsSection.innerHTML = '<p>No rewards available</p>';
-        return;
-    }
+        function populateRewards(rewards) {
+            const rewardsSection = document.getElementById('rewards-section');
 
-    // Clear existing rewards
-    rewardsSection.innerHTML = '';
+            if (!rewards || !Array.isArray(rewards)) {
+                console.warn('Invalid rewards data:', rewards);
+                rewardsSection.innerHTML = '<p>No rewards available</p>';
+                return;
+            }
 
-    // Render rewards
-    rewards.forEach(reward => {
-        const rewardItem = document.createElement('div');
-        rewardItem.classList.add('reward-item');
-        rewardItem.innerHTML = `
-            <img src="${reward.image}" alt="${reward.name}">
-            <div>
-                <p>${reward.name}</p>
-                <p>${reward.value}</p>
-            </div>
-            <div class="reward-points">${reward.points} Points</div>
-        `;
-        rewardsSection.appendChild(rewardItem);
-    });
-}
+            rewardsSection.innerHTML = ''; // Clear existing rewards
+
+            rewards.forEach(reward => {
+                const rewardItem = document.createElement('div');
+                rewardItem.classList.add('reward-item');
+                rewardItem.innerHTML = `
+                    <img src="${reward.image}" alt="${reward.name}">
+                    <div>
+                        <p>${reward.name}</p>
+                        <p>${reward.value}</p>
+                    </div>
+                    <div class="reward-points">${reward.points} Points</div>
+                `;
+                rewardsSection.appendChild(rewardItem);
+            });
+        }
 
         async function checkIn() {
-    const formdata = new FormData();
-    formdata.append("module", "checkIn");
-    formdata.append("accessId", ACCESS_ID);
-    formdata.append("accessToken", TOKEN);
+            const formdata = new FormData();
+            formdata.append("module", "checkIn");
+            formdata.append("accessId", ACCESS_ID);
+            formdata.append("accessToken", TOKEN);
 
-    const requestOptions = {
-        method: 'POST',
-        body: formdata,
-        redirect: 'follow'
-    };
+            const requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            };
 
-    try {
-        const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
+            try {
+                const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
 
-        if (!response.ok) {
-            throw new Error("Check-in failed.");
-        }
+                if (!response.ok) {
+                    throw new Error("Check-in failed.");
+                }
 
-        const data = await response.json();
+                const data = await response.json();
 
-        if (data.error) {
-            // If no deposit or other error
-            alert(data.message || "Min Topup RM 5 untuk claim Point");
-            if (!ACCESS_ID || !TOKEN) {
-                // Show login button for non-logged-in users
-                document.getElementById('login-btn').style.display = 'block';
+                if (data.error) {
+                    alert(data.message || "Min Topup RM 5 untuk claim Point");
+                    if (!ACCESS_ID || !TOKEN) {
+                        document.getElementById('login-btn').style.display = 'block';
+                    }
+                } else {
+                    alert("Check-in successful!");
+                    document.getElementById('points').innerText = data.updatedPoints; // Update points
+                }
+            } catch (error) {
+                console.error("Check-in error:", error);
+                alert("Check-in failed.");
             }
-        } else {
-            // Successful check-in
-            alert("Check-in successful!");
-            document.getElementById('points').innerText = data.updatedPoints; // Update points
         }
-    } catch (error) {
-        console.error("Check-in error:", error);
-        alert("Check-in failed.");
-    }
-}
 
-        <button id="login-btn" onclick="window.location.href='https://jdk88c.com/login'" style="display: none;">Login</button>
-
-        
-        document.addEventListener('DOMContentLoaded', validateUser,() => {
-    console.log('DOM fully loaded and parsed');
-    fetchUserData(); // Call the function to fetch user data
-});
-
-        
+        document.addEventListener('DOMContentLoaded', validateUser);
     </script>
-    
-    <script src="script.js"></script>
 </body>
 </html>
