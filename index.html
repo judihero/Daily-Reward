@@ -71,7 +71,7 @@
     </div>
 
     <!-- Check In Today Button -->
-    <button class="checkin-button">Check In Today</button>
+    <button class="checkin-button" onclick="checkIn()">Check In Today</button>
 
     <!-- Rewards Section -->
     <div id="rewards-section" class="rewards-section">
@@ -172,6 +172,7 @@
     <script>
         const ACCESS_ID = '254560538';  // Replace with your actual Access ID
         const TOKEN = '03e729dbdf5db7c33d824bf8288e10a240b433a989b91d44d0e9c214cd2c051b';  // Replace with your actual Access Token
+        let isUserLoggedIn = false;
 
         async function validateUser() {
             const formdata = new FormData();
@@ -193,15 +194,14 @@
                 }
 
                 const data = await response.json();
-                if (!data.valid) {
-                    // Redirect to login if user is not valid
-                    window.location.href = "https://jdk88c.com/login";
-                } else {
+                isUserLoggedIn = data.valid || false; // Update login status
+
+                if (isUserLoggedIn) {
                     fetchUserData(); // Fetch user points if logged in
                 }
             } catch (error) {
                 console.error("Error validating user:", error);
-                window.location.href = "https://jdk88c.com/login"; // Redirect on error
+                isUserLoggedIn = false; // Mark user as not logged in on error
             }
         }
 
@@ -228,7 +228,7 @@
                 document.getElementById('points').innerText = data.points || '0';
                 document.getElementById('user-name').innerText = data.name || 'N/A';
                 document.getElementById('user-phone').innerText = data.phone || 'N/A';
-                populateRewards(data.rewards); // Populate rewards
+                populateRewards(data.rewards);
             } catch (error) {
                 console.error("Error fetching user data:", error);
                 document.getElementById('points').innerText = 'Error';
@@ -262,6 +262,12 @@
         }
 
         async function checkIn() {
+            if (!isUserLoggedIn) {
+                // Redirect to login if user is not logged in
+                window.location.href = "https://jdk88c.com/login";
+                return;
+            }
+
             const formdata = new FormData();
             formdata.append("module", "checkIn");
             formdata.append("accessId", ACCESS_ID);
@@ -284,9 +290,6 @@
 
                 if (data.error) {
                     alert(data.message || "Min Topup RM 5 untuk claim Point");
-                    if (!ACCESS_ID || !TOKEN) {
-                        document.getElementById('login-btn').style.display = 'block';
-                    }
                 } else {
                     alert("Check-in successful!");
                     document.getElementById('points').innerText = data.updatedPoints; // Update points
@@ -297,7 +300,9 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', validateUser);
+        document.addEventListener('DOMContentLoaded', () => {
+            validateUser(); // Validate user when the page loads
+        });
     </script>
 </body>
 </html>
