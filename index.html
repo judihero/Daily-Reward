@@ -172,12 +172,12 @@
     <script>
     const ACCESS_ID = '254560538';  // Replace with your actual Access ID
     const TOKEN = '03e729dbdf5db7c33d824bf8288e10a240b433a989b91d44d0e9c214cd2c051b'; // Replace with your actual Access Token
+    const MIN_DEPOSIT = 5; // Minimum deposit amount in RM
 
     /**
-     * Check if the user has made a deposit today.
+     * Check if the user has made a valid deposit today.
      */
     async function checkDeposit() {
-        // Get today's date in UTC
         const today = new Date();
         const startOfDay = new Date(today.setUTCHours(0, 0, 0, 0)).toISOString(); // Start of today
         const endOfDay = new Date(today.setUTCHours(23, 59, 59, 999)).toISOString(); // End of today
@@ -194,7 +194,6 @@
             userId: ACCESS_ID
         };
 
-        // Make the POST request to the main website API
         try {
             const response = await fetch("https://jdk88a.com/api/v1/index.php", {
                 method: 'POST',
@@ -210,15 +209,12 @@
 
             const data = await response.json();
 
-            if (data && data.transactions && data.transactions.length > 0) {
-                // Deposit found
-                console.log("Deposit found for today:", data.transactions);
-                return true; // Deposit exists
-            } else {
-                // No deposit found
-                console.log("No deposit found for today.");
-                return false;
-            }
+            // Check if transactions exist and meet the minimum deposit requirement
+            const validTransactions = data.transactions.filter(
+                transaction => transaction.amount >= MIN_DEPOSIT
+            );
+
+            return validTransactions.length > 0; // Return true if a valid transaction exists
         } catch (error) {
             console.error("Error checking deposit:", error);
             return false; // Default to no deposit in case of error
@@ -226,9 +222,16 @@
     }
 
     /**
-     * Handle the check-in button click.
+     * Handle the check-in process.
      */
     async function handleCheckIn() {
+        // Check if user is logged in
+        if (!ACCESS_ID || !TOKEN) {
+            window.location.href = "https://jdk88c.com/login"; // Redirect to login page
+            return;
+        }
+
+        // Check if user has made a valid deposit
         const hasDeposited = await checkDeposit();
 
         if (!hasDeposited) {
@@ -236,11 +239,42 @@
             return;
         }
 
-        // Proceed with check-in logic if deposit is valid
-        alert("Check-in successful!");
+        // Proceed with awarding the points if deposit is valid
+        try {
+            const formdata = new FormData();
+            formdata.append("module", "checkIn");
+            formdata.append("accessId", ACCESS_ID);
+            formdata.append("accessToken", TOKEN);
+
+            const requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
+
+            if (!response.ok) {
+                throw new Error("Check-in failed.");
+            }
+
+            const data = await response.json();
+
+            if (data.error) {
+                alert(data.message || "Check-in failed due to an unknown error.");
+            } else {
+                alert("Check-in successful!");
+                document.getElementById('points').innerText = data.updatedPoints; // Update points
+            }
+        } catch (error) {
+            console.error("Check-in error:", error);
+            alert("Check-in failed.");
+        }
     }
 
-    // Attach to the check-in button
+    /**
+     * Initialize event listeners on page load.
+     */
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.checkin-button').addEventListener('click', handleCheckIn);
     });
