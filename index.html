@@ -74,7 +74,7 @@
     <button class="checkin-button">Check In Today</button>
 
     <!-- Rewards Section -->
-    <div class="rewards-section">
+    <div id="rewards-section" class="rewards-section">
         <div class="reward-item">
             <img src="https://static.gwvkyk.com/media/a3e09de073376d7f96065.jpg" alt="Wallet Angpow">
             <div>
@@ -233,7 +233,10 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            fetchUserData();
+    console.log('DOM fully loaded and parsed');
+    fetchUserData();
+});
+
         });
     </script>
     
