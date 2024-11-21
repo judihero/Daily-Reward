@@ -170,108 +170,78 @@
 
 <!-- Place the JavaScript code here, before the closing </body> tag -->
     <script>
-    const ACCESS_ID = '254560538';  // Replace with your Access ID
-        const TOKEN = '03e729dbdf5db7c33d824bf8288e10a240b433a989b91d44d0e9c214cd2c051b'; // Replace with your Token
-        let isUserLoggedIn = false;
+    const ACCESS_ID = '254560538';  // Replace with your actual Access ID
+    const TOKEN = '03e729dbdf5db7c33d824bf8288e10a240b433a989b91d44d0e9c214cd2c051b'; // Replace with your actual Access Token
 
-        /**
-         * Validate if the user is logged in.
-         */
-        async function validateUser() {
-            const formdata = new FormData();
-            formdata.append("module", "validateUser");
-            formdata.append("accessId", ACCESS_ID);
-            formdata.append("accessToken", TOKEN);
+    /**
+     * Check if the user has made a deposit today.
+     */
+    async function checkDeposit() {
+        // Get today's date in UTC
+        const today = new Date();
+        const startOfDay = new Date(today.setUTCHours(0, 0, 0, 0)).toISOString(); // Start of today
+        const endOfDay = new Date(today.setUTCHours(23, 59, 59, 999)).toISOString(); // End of today
 
-            const requestOptions = {
+        // Prepare the request body
+        const requestBody = {
+            module: "/transactions/getAllTransactions",
+            accessId: ACCESS_ID,
+            accessToken: TOKEN,
+            pageIndex: 0,
+            sDate: startOfDay,
+            eDate: endOfDay,
+            type: "DEPOSIT",
+            userId: ACCESS_ID
+        };
+
+        // Make the POST request to the main website API
+        try {
+            const response = await fetch("https://jdk88a.com/api/v1/index.php", {
                 method: 'POST',
-                body: formdata,
-                redirect: 'follow',
-            };
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            });
 
-            try {
-                const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
-                const data = await response.json();
-
-                if (data.valid) {
-                    isUserLoggedIn = true;
-                    fetchUserData(); // Fetch user data if valid
-                } else {
-                    isUserLoggedIn = false;
-                }
-            } catch (error) {
-                console.error("Validation failed:", error);
-                isUserLoggedIn = false;
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+
+            const data = await response.json();
+
+            if (data && data.transactions && data.transactions.length > 0) {
+                // Deposit found
+                console.log("Deposit found for today:", data.transactions);
+                return true; // Deposit exists
+            } else {
+                // No deposit found
+                console.log("No deposit found for today.");
+                return false;
+            }
+        } catch (error) {
+            console.error("Error checking deposit:", error);
+            return false; // Default to no deposit in case of error
+        }
+    }
+
+    /**
+     * Handle the check-in button click.
+     */
+    async function handleCheckIn() {
+        const hasDeposited = await checkDeposit();
+
+        if (!hasDeposited) {
+            alert("Min Topup RM 5 untuk claim Point");
+            return;
         }
 
-        /**
-         * Fetch user data (name, points, etc.) if logged in.
-         */
-        async function fetchUserData() {
-            const formdata = new FormData();
-            formdata.append("module", "getUserDetails");
-            formdata.append("accessId", ACCESS_ID);
-            formdata.append("accessToken", TOKEN);
+        // Proceed with check-in logic if deposit is valid
+        alert("Check-in successful!");
+    }
 
-            const requestOptions = {
-                method: 'POST',
-                body: formdata,
-                redirect: 'follow',
-            };
-
-            try {
-                const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
-                const data = await response.json();
-
-                // Update points and user details
-                document.getElementById('points').innerText = data.points || '0';
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-            }
-        }
-
-        /**
-         * Handle the check-in process when the button is clicked.
-         */
-        async function checkIn() {
-            if (!isUserLoggedIn) {
-                // Redirect to login page if not logged in
-                window.location.href = "https://jdk88c.com/login";
-                return;
-            }
-
-            const formdata = new FormData();
-            formdata.append("module", "checkIn");
-            formdata.append("accessId", ACCESS_ID);
-            formdata.append("accessToken", TOKEN);
-
-            const requestOptions = {
-                method: 'POST',
-                body: formdata,
-                redirect: 'follow',
-            };
-
-            try {
-                const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
-                const data = await response.json();
-
-                if (data.error) {
-                    // If no deposit is made, show a message
-                    alert(data.message || "Min Topup RM 5 untuk claim Point");
-                } else {
-                    // Update points if the check-in is successful
-                    alert("Check-in successful!");
-                    document.getElementById('points').innerText = data.updatedPoints || '0';
-                }
-            } catch (error) {
-                console.error("Check-in failed:", error);
-                alert("Check-in failed.");
-            }
-        }
-
-        // Run validation on page load
-        document.addEventListener('DOMContentLoaded', validateUser);
-    </script>
-</body>
-</html>
+    // Attach to the check-in button
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('.checkin-button').addEventListener('click', handleCheckIn);
+    });
+</script>
