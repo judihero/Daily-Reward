@@ -173,196 +173,199 @@
 
 <!-- Place the JavaScript code here, before the closing </body> tag -->
     <script>
-        const ACCESS_ID = '254560538';  // Replace with your actual Access ID
-        const TOKEN = '03e729dbdf5db7c33d824bf8288e10a240b433a989b91d44d0e9c214cd2c051b';  // Replace with your actual Access Token
-        let isUserLoggedIn = false;
-        let hasDepositedToday = false;
+    const ACCESS_ID = '254560538';  // Replace with actual Access ID
+    const TOKEN = '03e729dbdf5db7c33d824bf8288e10a240b433a989b91d44d0e9c214cd2c051b';  // Replace with actual Token
+    let isUserLoggedIn = false;
+    let hasDepositedToday = false;
 
-        /**
-         * Redirect user to the main website login page.
-         */
-        function redirectToLogin() {
-            window.location.href = "https://jdk88c.com/login";
-        }
+    /**
+     * Redirect user to the main website login page.
+     */
+    function redirectToLogin() {
+        console.log("User not logged in. Redirecting to login...");
+        window.location.href = "https://jdk88c.com/login";
+    }
 
-        /**
-         * Show a message to the user.
-         */
-        function showMessage(message) {
-            const messageSection = document.getElementById("message-section");
-            messageSection.style.display = "block";
-            messageSection.innerText = message;
-        }
+    /**
+     * Validate if the user is logged in.
+     */
+    async function validateUser() {
+        console.log("Validating user session...");
 
-        /**
-         * Validate if the user is logged in.
-         */
-        async function validateUser() {
-            const formdata = new FormData();
-            formdata.append("module", "/users/validateSession");
-            formdata.append("accessId", ACCESS_ID);
-            formdata.append("accessToken", TOKEN);
+        const formdata = new FormData();
+        formdata.append("module", "/users/validateSession");
+        formdata.append("accessId", ACCESS_ID);
+        formdata.append("accessToken", TOKEN);
 
-            const requestOptions = {
-                method: 'POST',
-                body: formdata,
-                redirect: 'follow'
-            };
+        const requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
 
-            try {
-                const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
+        try {
+            const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
 
-                if (!response.ok) {
-                    throw new Error("Validation failed.");
-                }
+            if (!response.ok) {
+                throw new Error("Validation request failed.");
+            }
 
-                const data = await response.json();
-                isUserLoggedIn = data.valid || false;
+            const data = await response.json();
+            console.log("Validation Response:", data);
 
-                if (!isUserLoggedIn) {
-                    redirectToLogin();
-                } else {
-                    fetchUserData();
-                }
-            } catch (error) {
-                console.error("Error validating user:", error);
+            // Ensure the API returns a valid flag
+            isUserLoggedIn = data.valid || false;
+
+            if (isUserLoggedIn) {
+                console.log("User is logged in.");
+                fetchUserData();
+            } else {
+                console.log("User is not logged in.");
                 redirectToLogin();
             }
+        } catch (error) {
+            console.error("Error during user validation:", error);
+            redirectToLogin();
         }
+    }
 
-        /**
-         * Fetch user details and points from the API.
-         */
-        async function fetchUserData() {
-            const formdata = new FormData();
-            formdata.append("module", "/users/getAllUsers");
-            formdata.append("accessId", 254560538);
-            formdata.append("accessToken", 03e729dbdf5db7c33d824bf8288e10a240b433a989b91d44d0e9c214cd2c051b);
+    /**
+     * Fetch user data.
+     */
+    async function fetchUserData() {
+        console.log("Fetching user data...");
 
-            const requestOptions = {
-                method: 'POST',
-                body: formdata,
-                redirect: 'follow'
-            };
+        const formdata = new FormData();
+        formdata.append("module", "/users/getAllUsers");
+        formdata.append("accessId", ACCESS_ID);
+        formdata.append("accessToken", TOKEN);
 
-            try {
-                const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
+        const requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
 
-                if (!response.ok) {
-                    throw new Error("Failed to fetch user data.");
-                }
+        try {
+            const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
 
-                const data = await response.json();
-                document.getElementById('points').innerText = data.points || '0';
-                checkDeposit();
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-                document.getElementById('points').innerText = 'Error';
-            }
-        }
-
-        /**
-         * Check if the user has made a deposit today.
-         */
-        async function checkDeposit() {
-            const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-            const sDate = `${today}T00:00:00Z`;
-            const eDate = `${today}T23:59:59Z`;
-
-            const formdata = new FormData();
-            formdata.append("module", "/transactions/getAllTransactions");
-            formdata.append("accessId", 254560538);
-            formdata.append("accessToken", 03e729dbdf5db7c33d824bf8288e10a240b433a989b91d44d0e9c214cd2c051b);
-            formdata.append("sDate", sDate);
-            formdata.append("eDate", eDate);
-            formdata.append("type", "DEPOSIT");
-            formdata.append("userId", ACCESS_ID);
-
-            const requestOptions = {
-                method: 'POST',
-                body: formdata,
-                redirect: 'follow'
-            };
-
-            try {
-                const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
-
-                if (!response.ok) {
-                    throw new Error("Failed to fetch deposit status.");
-                }
-
-                const data = await response.json();
-
-                if (data && data.transactions && data.transactions.length > 0) {
-                    const depositAmount = data.transactions.reduce((sum, txn) => sum + txn.amount, 0);
-
-                    if (depositAmount >= 5) {
-                        hasDepositedToday = true;
-                        document.getElementById("message-section").style.display = "none";
-                    } else {
-                        hasDepositedToday = false;
-                        showMessage("Min Deposit RM 5 Untuk Unlock");
-                    }
-                } else {
-                    hasDepositedToday = false;
-                    showMessage("Min Deposit RM 5 Untuk Unlock");
-                }
-            } catch (error) {
-                console.error("Error checking deposit:", error);
-                showMessage("Failed to validate deposit.");
-            }
-        }
-
-        /**
-         * Handle the Check-In button click.
-         */
-        async function checkIn() {
-            if (!isUserLoggedIn) {
-                redirectToLogin();
-                return;
+            if (!response.ok) {
+                throw new Error("Failed to fetch user data.");
             }
 
-            if (!hasDepositedToday) {
+            const data = await response.json();
+            console.log("User Data:", data);
+
+            document.getElementById('points').innerText = data.points || '0';
+            checkDeposit();
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+            document.getElementById('points').innerText = "Error";
+        }
+    }
+
+    /**
+     * Check if the user has made a deposit today.
+     */
+    async function checkDeposit() {
+        console.log("Checking today's deposit...");
+
+        const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+        const sDate = `${today}T00:00:00Z`;
+        const eDate = `${today}T23:59:59Z`;
+
+        const formdata = new FormData();
+        formdata.append("module", "/transactions/getAllTransactions");
+        formdata.append("accessId", ACCESS_ID);
+        formdata.append("accessToken", TOKEN);
+        formdata.append("sDate", sDate);
+        formdata.append("eDate", eDate);
+        formdata.append("type", "DEPOSIT");
+        formdata.append("userId", ACCESS_ID);
+
+        const requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        try {
+            const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch deposit status.");
+            }
+
+            const data = await response.json();
+            console.log("Deposit Data:", data);
+
+            const depositAmount = data.transactions?.reduce((sum, txn) => sum + txn.amount, 0) || 0;
+
+            if (depositAmount >= 5) {
+                hasDepositedToday = true;
+                document.getElementById("message-section").style.display = "none";
+            } else {
+                hasDepositedToday = false;
                 showMessage("Min Deposit RM 5 Untuk Unlock");
-                return;
             }
+        } catch (error) {
+            console.error("Error checking deposit:", error);
+            showMessage("Failed to validate deposit.");
+        }
+    }
 
-            const formdata = new FormData();
-            formdata.append("module", "/users/checkIn");
-            formdata.append("accessId", 254560538);
-            formdata.append("accessToken", 03e729dbdf5db7c33d824bf8288e10a240b433a989b91d44d0e9c214cd2c051b);
+    /**
+     * Handle Check-In functionality.
+     */
+    async function checkIn() {
+        console.log("Handling Check-In...");
 
-            const requestOptions = {
-                method: 'POST',
-                body: formdata,
-                redirect: 'follow'
-            };
-
-            try {
-                const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
-
-                if (!response.ok) {
-                    throw new Error("Check-in failed.");
-                }
-
-                const data = await response.json();
-
-                if (data.error) {
-                    alert(data.message || "Check-in failed.");
-                } else {
-                    alert("Check-in successful!");
-                    document.getElementById('points').innerText = data.updatedPoints || '0';
-                }
-            } catch (error) {
-                console.error("Check-in error:", error);
-                alert("Failed to check in.");
-            }
+        if (!isUserLoggedIn) {
+            redirectToLogin();
+            return;
         }
 
-        // Validate user on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            validateUser();
-        });
-    </script>
-</body>
-</html>
+        if (!hasDepositedToday) {
+            showMessage("Min Deposit RM 5 Untuk Unlock");
+            return;
+        }
+
+        const formdata = new FormData();
+        formdata.append("module", "/users/checkIn");
+        formdata.append("accessId", ACCESS_ID);
+        formdata.append("accessToken", TOKEN);
+
+        const requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        try {
+            const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
+
+            if (!response.ok) {
+                throw new Error("Check-in request failed.");
+            }
+
+            const data = await response.json();
+            console.log("Check-In Response:", data);
+
+            if (data.error) {
+                alert(data.message || "Check-in failed.");
+            } else {
+                alert("Check-in successful!");
+                document.getElementById('points').innerText = data.updatedPoints || '0';
+            }
+        } catch (error) {
+            console.error("Error during check-in:", error);
+            alert("Failed to check in.");
+        }
+    }
+
+    // Validate user on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        validateUser();
+    });
+</script>
+
