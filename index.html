@@ -75,7 +75,6 @@
 
     <!-- Message Section -->
     <div id="message-section" style="display: none; color: red; font-weight: bold;"></div>
-    <button id="login-btn" onclick="redirectToLogin()" style="display: none;">Login</button>
 
     <!-- Rewards Section -->
     <div id="rewards-section" class="rewards-section">
@@ -174,10 +173,10 @@
 
 <!-- Place the JavaScript code here, before the closing </body> tag -->
     <script>
-        // Configuration
         const ACCESS_ID = '254560538';  // Replace with your actual Access ID
         const TOKEN = '03e729dbdf5db7c33d824bf8288e10a240b433a989b91d44d0e9c214cd2c051b';  // Replace with your actual Access Token
         let isUserLoggedIn = false;
+        let hasDepositedToday = false;
 
         /**
          * Redirect user to the main website login page.
@@ -212,10 +211,8 @@
                 isUserLoggedIn = data.valid || false;
 
                 if (!isUserLoggedIn) {
-                    // Redirect to login page
                     redirectToLogin();
                 } else {
-                    // Fetch user points and deposit status
                     fetchUserData();
                 }
             } catch (error) {
@@ -248,7 +245,6 @@
 
                 const data = await response.json();
                 document.getElementById('points').innerText = data.points || '0';
-                populateRewards(data.rewards || []);
                 checkDeposit();
             } catch (error) {
                 console.error("Error fetching user data:", error);
@@ -289,14 +285,13 @@
                     const depositAmount = data.transactions.reduce((sum, txn) => sum + txn.amount, 0);
 
                     if (depositAmount >= 5) {
+                        hasDepositedToday = true;
                         console.log("Deposit validated: User has made sufficient deposit.");
                         document.getElementById("message-section").style.display = "none";
                     } else {
-                        console.log("Insufficient deposit.");
                         showMessage("Min Deposit RM 5 Untuk Unlock");
                     }
                 } else {
-                    console.log("No deposits found for today.");
                     showMessage("Min Deposit RM 5 Untuk Unlock");
                 }
             } catch (error) {
@@ -320,6 +315,11 @@
         async function checkIn() {
             if (!isUserLoggedIn) {
                 redirectToLogin();
+                return;
+            }
+
+            if (!hasDepositedToday) {
+                showMessage("Min Deposit RM 5 Untuk Unlock");
                 return;
             }
 
@@ -353,35 +353,6 @@
                 console.error("Check-in error:", error);
                 alert("Failed to check in.");
             }
-        }
-
-        /**
-         * Populate rewards section.
-         */
-        function populateRewards(rewards) {
-            const rewardsSection = document.getElementById('rewards-section');
-
-            if (!rewards || !Array.isArray(rewards)) {
-                console.warn('Invalid rewards data:', rewards);
-                rewardsSection.innerHTML = '<p>No rewards available</p>';
-                return;
-            }
-
-            rewardsSection.innerHTML = '';
-
-            rewards.forEach(reward => {
-                const rewardItem = document.createElement('div');
-                rewardItem.classList.add('reward-item');
-                rewardItem.innerHTML = `
-                    <img src="${reward.image}" alt="${reward.name}">
-                    <div>
-                        <p>${reward.name}</p>
-                        <p>${reward.value}</p>
-                    </div>
-                    <div class="reward-points">${reward.points} Points</div>
-                `;
-                rewardsSection.appendChild(rewardItem);
-            });
         }
 
         // Validate user on page load
