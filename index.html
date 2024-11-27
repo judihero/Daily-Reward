@@ -186,6 +186,15 @@
         }
 
         /**
+         * Show a message to the user.
+         */
+        function showMessage(message) {
+            const messageSection = document.getElementById("message-section");
+            messageSection.style.display = "block";
+            messageSection.innerText = message;
+        }
+
+        /**
          * Validate if the user is logged in.
          */
         async function validateUser() {
@@ -289,27 +298,19 @@
 
                     if (depositAmount >= 5) {
                         hasDepositedToday = true;
-                        console.log("Deposit validated: User has made sufficient deposit.");
                         document.getElementById("message-section").style.display = "none";
                     } else {
+                        hasDepositedToday = false;
                         showMessage("Min Deposit RM 5 Untuk Unlock");
                     }
                 } else {
+                    hasDepositedToday = false;
                     showMessage("Min Deposit RM 5 Untuk Unlock");
                 }
             } catch (error) {
                 console.error("Error checking deposit:", error);
                 showMessage("Failed to validate deposit.");
             }
-        }
-
-        /**
-         * Show a message to the user.
-         */
-        function showMessage(message) {
-            const messageSection = document.getElementById("message-section");
-            messageSection.style.display = "block";
-            messageSection.innerText = message;
         }
 
         /**
