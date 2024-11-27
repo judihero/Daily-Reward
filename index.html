@@ -73,6 +73,10 @@
     <!-- Check In Today Button -->
     <button class="checkin-button" onclick="checkIn()">Check In Today</button>
 
+    <!-- Message Section -->
+    <div id="message-section" style="display: none; color: red; font-weight: bold;"></div>
+    <button id="login-btn" onclick="redirectToLogin()" style="display: none;">Login</button>
+
     <!-- Rewards Section -->
     <div id="rewards-section" class="rewards-section">
         <div class="reward-item">
@@ -170,82 +174,220 @@
 
 <!-- Place the JavaScript code here, before the closing </body> tag -->
     <script>
-    const ACCESS_ID = '254560538';  // Replace with your actual Access ID
-    const TOKEN = '03e729dbdf5db7c33d824bf8288e10a240b433a989b91d44d0e9c214cd2c051b'; // Replace with your actual Access Token
+        // Configuration
+        const ACCESS_ID = '254560538';  // Replace with your actual Access ID
+        const TOKEN = '03e729dbdf5db7c33d824bf8288e10a240b433a989b91d44d0e9c214cd2c051b';  // Replace with your actual Access Token
+        let isUserLoggedIn = false;
 
-    /**
-     * Fetch user details from the main website.
-     */
-    async function checkUserDetails() {
-        console.log("Fetching user details...");
-        
-        const requestBody = {
-            module: "/users/getAllUsers",
-            accessId: ACCESS_ID,
-            accessToken: TOKEN,
-            pageIndex: 0
-        };
+        /**
+         * Redirect user to the main website login page.
+         */
+        function redirectToLogin() {
+            window.location.href = "https://jdk88c.com/login";
+        }
 
-        console.log("Request body for user details:", requestBody);
+        /**
+         * Validate if the user is logged in.
+         */
+        async function validateUser() {
+            const formdata = new FormData();
+            formdata.append("module", "/users/validateSession");
+            formdata.append("accessId", ACCESS_ID);
+            formdata.append("accessToken", TOKEN);
 
-        try {
-            const response = await fetch("https://jdk88a.com/api/v1/index.php", {
+            const requestOptions = {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestBody)
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            try {
+                const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
+
+                if (!response.ok) {
+                    throw new Error("Validation failed.");
+                }
+
+                const data = await response.json();
+                isUserLoggedIn = data.valid || false;
+
+                if (!isUserLoggedIn) {
+                    // Redirect to login page
+                    redirectToLogin();
+                } else {
+                    // Fetch user points and deposit status
+                    fetchUserData();
+                }
+            } catch (error) {
+                console.error("Error validating user:", error);
+                redirectToLogin();
+            }
+        }
+
+        /**
+         * Fetch user details and points from the API.
+         */
+        async function fetchUserData() {
+            const formdata = new FormData();
+            formdata.append("module", "/users/getAllUsers");
+            formdata.append("accessId", ACCESS_ID);
+            formdata.append("accessToken", TOKEN);
+
+            const requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            try {
+                const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user data.");
+                }
+
+                const data = await response.json();
+                document.getElementById('points').innerText = data.points || '0';
+                populateRewards(data.rewards || []);
+                checkDeposit();
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                document.getElementById('points').innerText = 'Error';
+            }
+        }
+
+        /**
+         * Check if the user has made a deposit today.
+         */
+        async function checkDeposit() {
+            const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+
+            const formdata = new FormData();
+            formdata.append("module", "/transactions/getAllTransactions");
+            formdata.append("accessId", ACCESS_ID);
+            formdata.append("accessToken", TOKEN);
+            formdata.append("sDate", `${today}T00:00:00Z`);
+            formdata.append("eDate", `${today}T23:59:59Z`);
+            formdata.append("type", "DEPOSIT");
+
+            const requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            try {
+                const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch deposit status.");
+                }
+
+                const data = await response.json();
+
+                if (data && data.transactions && data.transactions.length > 0) {
+                    const depositAmount = data.transactions.reduce((sum, txn) => sum + txn.amount, 0);
+
+                    if (depositAmount >= 5) {
+                        console.log("Deposit validated: User has made sufficient deposit.");
+                        document.getElementById("message-section").style.display = "none";
+                    } else {
+                        console.log("Insufficient deposit.");
+                        showMessage("Min Deposit RM 5 Untuk Unlock");
+                    }
+                } else {
+                    console.log("No deposits found for today.");
+                    showMessage("Min Deposit RM 5 Untuk Unlock");
+                }
+            } catch (error) {
+                console.error("Error checking deposit:", error);
+                showMessage("Failed to validate deposit.");
+            }
+        }
+
+        /**
+         * Show a message to the user.
+         */
+        function showMessage(message) {
+            const messageSection = document.getElementById("message-section");
+            messageSection.style.display = "block";
+            messageSection.innerText = message;
+        }
+
+        /**
+         * Handle the Check-In button click.
+         */
+        async function checkIn() {
+            if (!isUserLoggedIn) {
+                redirectToLogin();
+                return;
+            }
+
+            const formdata = new FormData();
+            formdata.append("module", "/users/checkIn");
+            formdata.append("accessId", ACCESS_ID);
+            formdata.append("accessToken", TOKEN);
+
+            const requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            try {
+                const response = await fetch("https://jdk88a.com/api/v1/index.php", requestOptions);
+
+                if (!response.ok) {
+                    throw new Error("Check-in failed.");
+                }
+
+                const data = await response.json();
+
+                if (data.error) {
+                    alert(data.message || "Check-in failed.");
+                } else {
+                    alert("Check-in successful!");
+                    document.getElementById('points').innerText = data.updatedPoints || '0';
+                }
+            } catch (error) {
+                console.error("Check-in error:", error);
+                alert("Failed to check in.");
+            }
+        }
+
+        /**
+         * Populate rewards section.
+         */
+        function populateRewards(rewards) {
+            const rewardsSection = document.getElementById('rewards-section');
+
+            if (!rewards || !Array.isArray(rewards)) {
+                console.warn('Invalid rewards data:', rewards);
+                rewardsSection.innerHTML = '<p>No rewards available</p>';
+                return;
+            }
+
+            rewardsSection.innerHTML = '';
+
+            rewards.forEach(reward => {
+                const rewardItem = document.createElement('div');
+                rewardItem.classList.add('reward-item');
+                rewardItem.innerHTML = `
+                    <img src="${reward.image}" alt="${reward.name}">
+                    <div>
+                        <p>${reward.name}</p>
+                        <p>${reward.value}</p>
+                    </div>
+                    <div class="reward-points">${reward.points} Points</div>
+                `;
+                rewardsSection.appendChild(rewardItem);
             });
-
-            console.log("User details API response status:", response.status);
-
-            if (!response.ok) {
-                console.error("Error response from user details API:", await response.text());
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log("User details fetched successfully:", data);
-
-            if (!data || !data.status || data.status !== "ACTIVE") {
-                console.warn("User is not active or data is missing.");
-                alert("User account is not active.");
-                return null;
-            }
-
-            // Update user details on the page
-            updateUserDetails(data);
-            return data;
-
-        } catch (error) {
-            console.error("Error fetching user details:", error);
-            alert("Failed to fetch user details.");
-            return null;
         }
-    }
 
-    /**
-     * Update user details in the UI.
-     */
-    function updateUserDetails(user) {
-        console.log("Updating user details in the UI:", user);
-
-        if (user.name) {
-            document.getElementById('user-name').innerText = user.name;
-        }
-        if (user.mobile) {
-            document.getElementById('user-phone').innerText = user.mobile;
-        }
-        if (user.bank) {
-            document.getElementById('user-bank').innerText = user.bank;
-        }
-        document.getElementById('user-status').innerText = user.status || "N/A";
-    }
-
-    // Event Listener on Page Load
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log("DOM fully loaded. Checking user details...");
-        checkUserDetails(); // Fetch user details when the page loads
-    });
-</script>
-
+        // Validate user on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            validateUser();
+        });
+    </script>
+</body>
+</html>
