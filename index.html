@@ -173,8 +173,8 @@
 
 <!-- Place the JavaScript code here, before the closing </body> tag -->
     <script>
-        const ACCESS_ID = '254560538';  // Replace with your actual Access ID
-        const TOKEN = '03e729dbdf5db7c33d824bf8288e10a240b433a989b91d44d0e9c214cd2c051b';  // Replace with your actual Access Token
+        const ACCESS_ID = '12345';  // Replace with your actual Access ID
+        const TOKEN = 'abcde12345';  // Replace with your actual Access Token
         let isUserLoggedIn = false;
         let hasDepositedToday = false;
 
@@ -257,14 +257,17 @@
          */
         async function checkDeposit() {
             const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+            const sDate = `${today}T00:00:00Z`;
+            const eDate = `${today}T23:59:59Z`;
 
             const formdata = new FormData();
             formdata.append("module", "/transactions/getAllTransactions");
             formdata.append("accessId", ACCESS_ID);
             formdata.append("accessToken", TOKEN);
-            formdata.append("sDate", `${today}T00:00:00Z`);
-            formdata.append("eDate", `${today}T23:59:59Z`);
+            formdata.append("sDate", sDate);
+            formdata.append("eDate", eDate);
             formdata.append("type", "DEPOSIT");
+            formdata.append("userId", ACCESS_ID);
 
             const requestOptions = {
                 method: 'POST',
