@@ -179,19 +179,19 @@
         let hasDepositedToday = false;
 
         /**
-         * Redirect user to the main website login page.
-         */
-        function redirectToLogin() {
-            window.location.href = "https://jdk88c.com/login";
-        }
-
-        /**
          * Show a message to the user.
          */
         function showMessage(message) {
             const messageSection = document.getElementById("message-section");
             messageSection.style.display = "block";
             messageSection.innerText = message;
+        }
+
+        /**
+         * Redirect user to the main website login page.
+         */
+        function redirectToLogin() {
+            window.location.href = "https://jdk88c.com/login";
         }
 
         /**
@@ -219,12 +219,7 @@
                 console.log("Validation Response:", data);
                 isUserLoggedIn = data.valid || false;
 
-                if (!isUserLoggedIn) {
-                    // Do not redirect yet; wait for button click
-                    return false;
-                }
-
-                return true;
+                return isUserLoggedIn;
             } catch (error) {
                 console.error("Error validating user:", error);
                 showMessage("An error occurred while validating user. Please try again.");
@@ -271,11 +266,11 @@
                         document.getElementById("message-section").style.display = "none";
                     } else {
                         hasDepositedToday = false;
-                        showMessage("Deposit to unlock");
+                        showMessage("Deposit untuk claim");
                     }
                 } else {
                     hasDepositedToday = false;
-                    showMessage("Deposit to unlock");
+                    showMessage("Deposit untuk claim");
                 }
             } catch (error) {
                 console.error("Error checking deposit:", error);
@@ -287,8 +282,9 @@
          * Handle the Check-In button click.
          */
         async function checkIn() {
-            // Validate user status first
-            if (!await validateUser()) {
+            // Validate user login
+            const isValidUser = await validateUser();
+            if (!isValidUser) {
                 redirectToLogin();
                 return;
             }
@@ -296,7 +292,7 @@
             // Check deposit status
             await checkDeposit();
 
-            // If no deposit, do nothing else
+            // If user has not deposited today, show message and stop
             if (!hasDepositedToday) {
                 return;
             }
@@ -335,9 +331,12 @@
             }
         }
 
-        // Optional: Pre-fetch user data on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            validateUser();
+        // Validate user on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            const isValidUser = await validateUser();
+            if (!isValidUser) {
+                redirectToLogin();
+            }
         });
     </script>
 </body>
